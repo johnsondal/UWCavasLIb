@@ -4,5 +4,6 @@ C:\Users\Johns\Documents\GitHub\UWCavasLIb\CanvasData\bin\Debug\Newtonsoft.Json.
 C:\Users\Johns\Documents\GitHub\UWCavasLIb\CanvasData\bin\Debug\RestSharp.dll
 C:\Users\Johns\Documents\GitHub\UWCavasLIb\CanvasData\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Johns\Documents\GitHub\UWCavasLIb\CanvasData\bin\Debug\RestSharp.xml
+C:\Users\Johns\Documents\GitHub\UWCavasLIb\CanvasData\obj\Debug\CanvasData.csprojResolveAssemblyReference.cache
 C:\Users\Johns\Documents\GitHub\UWCavasLIb\CanvasData\obj\Debug\CanvasData.dll
 C:\Users\Johns\Documents\GitHub\UWCavasLIb\CanvasData\obj\Debug\CanvasData.pdb

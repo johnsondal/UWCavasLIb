@@ -5,7 +5,7 @@ This library utilizes the C#/ .NET 4.5.2 stack and is intended to bridge the gap
 
 The solution file contains two products; 
 * CanvasData - Library
-* CanvasWebHarness - Implements the library and can be used to demonstrate and test implemented functions. Extremly Basic!
+* WebTestHarness - Implements the library and can be used to demonstrate and test implemented functions. Extremly Basic!
 
 #### The following are important Canvas conventations.
 
@@ -93,3 +93,12 @@ The following is an example is how to initialize the library and make a call
 * Function returns a List of POCO Canvas Quiz Submission Objects.  https://canvas.instructure.com/doc/api/quiz_submissions.html
 * *testWebHarness* Call: http://yourwebserver/data/GetCourseQuizSubmissions?courseID=51177&quizID=32665
 
+### ```GetCourseAssignments (string CourseID)```
+
+* Function returns a List of POCO Canvas Assignment objects. https://canvas.instructure.com/doc/api/assignments.html
+* *testWebHarness* Call: http://yourwebserver/data/GetCourseAssignments?courseID=73706
+
+### ```GetCourseSubmissions(string courseID, string AssignmentID)```
+
+* Function returns a List of POCO Canvas Submission Objects.  https://canvas.instructure.com/doc/api/submissions.html
+* *testWebHarness* Call: http://yourwebserver/data/GetCourseSubmissions?courseID=51177&AssignmentID=32665

@@ -244,7 +244,54 @@ namespace CanvasData.Biz.Model
         public bool grade { get; set; }
         public bool review_grades { get; set; }
         public bool view_answer_audits { get; set; }
+        public bool attach { get; set; }
+
+        public bool reply { get; set; }
+
     }
+
+    public class DiscussionTopic
+    {
+        public int id { get; set; }
+        public string title { get; set; }
+        public object last_reply_at { get; set; }
+        public object delayed_post_at { get; set; }
+        public object posted_at { get; set; }
+        public int assignment_id { get; set; }
+        public object root_topic_id { get; set; }
+        public int position { get; set; }
+        public bool podcast_has_student_posts { get; set; }
+        public string discussion_type { get; set; }
+        public object lock_at { get; set; }
+        public bool allow_rating { get; set; }
+        public bool only_graders_can_rate { get; set; }
+        public bool sort_by_rating { get; set; }
+        public object user_name { get; set; }
+        public int discussion_subentry_count { get; set; }
+        public Permissions permissions { get; set; }
+        public object require_initial_post { get; set; }
+        public bool user_can_see_posts { get; set; }
+        public object podcast_url { get; set; }
+        public string read_state { get; set; }
+        public int unread_count { get; set; }
+        public bool subscribed { get; set; }
+        public List<object> topic_children { get; set; }
+        public List<object> attachments { get; set; }
+        public bool published { get; set; }
+        public bool can_unpublish { get; set; }
+        public bool locked { get; set; }
+        public bool can_lock { get; set; }
+        public bool comments_disabled { get; set; }
+        public object author { get; set; }
+        public string html_url { get; set; }
+        public string url { get; set; }
+        public bool pinned { get; set; }
+        public object group_category_id { get; set; }
+        public bool can_group { get; set; }
+        public bool locked_for_user { get; set; }
+        public string message { get; set; }
+    }
+
 
     public class Quiz
     {
@@ -297,6 +344,62 @@ namespace CanvasData.Biz.Model
         public List<string> question_types { get; set; }
         public bool has_access_code { get; set; }
         public bool? post_to_sis { get; set; }
+    }
+
+
+    public class Assignment
+    {
+        public int id { get; set; }
+        public string description { get; set; }
+        public DateTime? due_at { get; set; }
+        public DateTime? unlock_at { get; set; }
+        public DateTime? lock_at { get; set; }
+        public int points_possible { get; set; }
+        public string grading_type { get; set; }
+        public int assignment_group_id { get; set; }
+        public object grading_standard_id { get; set; }
+        public DateTime created_at { get; set; }
+        public DateTime updated_at { get; set; }
+        public bool peer_reviews { get; set; }
+        public bool automatic_peer_reviews { get; set; }
+        public int position { get; set; }
+        public bool grade_group_students_individually { get; set; }
+        public bool anonymous_peer_reviews { get; set; }
+        public object group_category_id { get; set; }
+        public bool post_to_sis { get; set; }
+        public bool moderated_grading { get; set; }
+        public bool omit_from_final_grade { get; set; }
+        public bool intra_group_peer_reviews { get; set; }
+        public bool anonymous_instructor_annotations { get; set; }
+        public string secure_params { get; set; }
+        public int course_id { get; set; }
+        public string name { get; set; }
+        public List<string> submission_types { get; set; }
+        public bool has_submitted_submissions { get; set; }
+        public bool due_date_required { get; set; }
+        public int max_name_length { get; set; }
+        public bool in_closed_grading_period { get; set; }
+        public bool is_quiz_assignment { get; set; }
+        public ExternalToolTagAttributes external_tool_tag_attributes { get; set; }
+        public bool muted { get; set; }
+        public string html_url { get; set; }
+        public bool has_overrides { get; set; }
+        public string url { get; set; }
+        public int needs_grading_count { get; set; }
+        public object integration_id { get; set; }
+        public object integration_data { get; set; }
+        public bool published { get; set; }
+        public bool unpublishable { get; set; }
+        public bool only_visible_to_overrides { get; set; }
+        public bool locked_for_user { get; set; }
+        public string submissions_download_url { get; set; }
+        public int? quiz_id { get; set; }
+        public bool? anonymous_submissions { get; set; }
+        public bool? use_rubric_for_grading { get; set; }
+        public bool? free_form_criterion_comments { get; set; }
+        public List<Rubric> rubric { get; set; }
+        public RubricSettings rubric_settings { get; set; }
+        public DiscussionTopic discussion_topic { get; set; }
     }
 
 
@@ -477,6 +580,98 @@ namespace CanvasData.Biz.Model
 
 
     }
+
+
+    public class ExternalToolTagAttributes
+    {
+        public string url { get; set; }
+        public bool new_tab { get; set; }
+        public string resource_link_id { get; set; }
+    }
+
+    public class Rating
+    {
+        public string id { get; set; }
+        public double points { get; set; }
+        public string description { get; set; }
+    }
+
+    public class Rubric
+    {
+        public string id { get; set; }
+        public int points { get; set; }
+        public string description { get; set; }
+        public string long_description { get; set; }
+        public List<Rating> ratings { get; set; }
+    }
+
+    public class RubricSettings
+    {
+        public int id { get; set; }
+        public string title { get; set; }
+        public int points_possible { get; set; }
+        public bool free_form_criterion_comments { get; set; }
+    }
+
+    public class Submission
+    {
+        public int id { get; set; }
+        public object body { get; set; }
+        public object url { get; set; }
+        public string grade { get; set; }
+        public int? score { get; set; }
+        public object submitted_at { get; set; }
+        public int assignment_id { get; set; }
+        public int user_id { get; set; }
+        public object submission_type { get; set; }
+        public string workflow_state { get; set; }
+        public bool grade_matches_current_submission { get; set; }
+        public DateTime? graded_at { get; set; }
+        public int? grader_id { get; set; }
+        public object attempt { get; set; }
+        public object cached_due_date { get; set; }
+        public bool? excused { get; set; }
+        public object late_policy_status { get; set; }
+        public object points_deducted { get; set; }
+        public object grading_period_id { get; set; }
+        public bool late { get; set; }
+        public bool missing { get; set; }
+        public int seconds_late { get; set; }
+        public string entered_grade { get; set; }
+        public int? entered_score { get; set; }
+        public string preview_url { get; set; }
+
+        // These Values are not included in the base class.  Expanded to make more user friendly.
+        public string name { get; set; }
+        public string sortable_name { get; set; }
+        public string short_name { get; set; }
+        public string sis_user_id { get; set; }
+        public string integration_id { get; set; }
+        public string sis_login_id { get; set; }
+
+        public string login_id { get; set; }
+
+        public CourseEnrollment SetUser
+        {
+            set
+            {
+                name = value.name;
+                sortable_name = value.sortable_name;
+                short_name = value.short_name;
+                sis_user_id = value.sis_user_id;
+                integration_id = value.integration_id;
+                sis_login_id = value.sis_login_id;
+                login_id = value.login_id;
+
+
+            }
+        }
+
+    }
+
+
+
+
 
     public class QuizSubmissionContainer
     {

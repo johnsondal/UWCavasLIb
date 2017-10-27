@@ -31,6 +31,14 @@ namespace CanvasData.Biz
         // Pull Quiz Submissions 
         const string cCourseQuizSubmissions = "/api/v1/courses/{0}/quizzes/{1}/submissions";
 
+
+        // Pull Course Assignments
+        const string cCourseAssignments = "api/v1/courses/{0}assignments";
+
+        // Pull Course AssignmentSubmissions
+        const string cCourseAssignmentSubmissions = "";
+
+
         const string cEnrollUser = "/api/v1/courses/{0}/enrollments";
 
         // 0: AccountID
@@ -209,6 +217,100 @@ namespace CanvasData.Biz
 
             }
             return rtnValue;
+
+        }
+        public List<Model.Assignment> GetCourseAssignments(string CourseID)
+        {
+            List<Biz.Model.Assignment> rtnValue = new List<Model.Assignment>();
+
+            var settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore
+            };
+
+            RestClient client = new RestClient(WebcoursesUri);
+
+            string searchURL = string.Format(cCourseAssignments, CourseID);
+
+
+
+            RestRequest request = new RestRequest(searchURL, Method.GET);
+            addAuth(ref request);
+
+            var response = client.Execute(request);
+
+
+            rtnValue.AddRange(JsonConvert.DeserializeObject<List<Biz.Model.Assignment>>(response.Content, settings));
+
+            string link = NextLink(response);
+            while (link.Length != 0)
+            {
+                request = new RestRequest(link.Substring(1, link.Length - 2).Substring(WebcoursesUri.Length + 1), Method.GET);
+                addAuth(ref request);
+
+                response = client.Execute(request);
+                rtnValue.AddRange(JsonConvert.DeserializeObject<List<Biz.Model.Assignment>>(response.Content, settings));
+                link = NextLink(response);
+
+            }
+            return rtnValue;
+
+        }
+
+        public List<Model.Submission> GetCourseSubmissions(string courseID, string AssignmentID)
+        {
+            List<Biz.Model.Submission> rtnValue = new List<Model.Submission>();
+
+            var settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore
+            };
+
+            RestClient client = new RestClient(WebcoursesUri);
+
+            string searchURL = string.Format(cCourseAssignmentSubmissions, courseID, AssignmentID);
+
+            RestRequest request = new RestRequest(searchURL, Method.GET);
+            addAuth(ref request);
+
+            var response = client.Execute(request);
+
+
+
+            rtnValue.AddRange((JsonConvert.DeserializeObject<List<Biz.Model.Submission>>(response.Content, settings)));
+
+            string link = NextLink(response);
+            while (link.Length != 0)
+            {
+                request = new RestRequest(link.Substring(1, link.Length - 2).Substring(WebcoursesUri.Length + 1), Method.GET);
+                addAuth(ref request);
+
+                response = client.Execute(request);
+                rtnValue.AddRange((JsonConvert.DeserializeObject<List<Biz.Model.Submission>>(response.Content, settings)));
+                link = NextLink(response);
+
+            }
+
+
+            List<Model.CourseEnrollment> enrollments = getEnrollments(courseID);
+
+            foreach (Biz.Model.Submission item in rtnValue)
+            {
+                int UserID = item.user_id;
+                if (enrollments.Exists(e => e.id == UserID))
+                    item.SetUser = enrollments.First(e => e.id == UserID);
+
+
+
+            }
+
+
+
+            return rtnValue;
+
+
 
         }
         public List<Model.Quiz> GetCourseQuizzes(string CourseID)
