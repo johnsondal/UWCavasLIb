@@ -23,7 +23,10 @@ namespace CanvasData.Biz
         const string cUserSearch = "api/v1/accounts/{0}/users?search_term={1}";
 
         //Pull Course Enrollments with Grades
-        const string cCourseEnrollmentsGrades = "api/v1/courses/{0}/users?include[]=enrollments";
+        //const string cCourseEnrollmentsGrades = "api/v1/courses/{0}/users?include[]=enrollments";
+        const string cCourseEnrollmentsGrades = "api/v1/courses/{0}/enrollments";
+
+       // https://canvas.wisc.edu:443/api/v1/courses/71555/enrollments
 
         // Pull Course Quizzes
         const string cCourseQuizzes = "api/v1/courses/{0}/quizzes";
@@ -180,9 +183,9 @@ namespace CanvasData.Biz
         }
 
 
-        public List<Model.CourseEnrollments> GetCourseEnrollmentsWithGrades(string CourseID, string search_term)
+        public List<Model.EnrollmentRecord> GetCourseEnrollmentsWithGrades(string CourseID, string search_term)
         {
-            List<Biz.Model.CourseEnrollments> rtnValue = new List<Model.CourseEnrollments>();
+            List<Biz.Model.EnrollmentRecord> rtnValue = new List<Model.EnrollmentRecord>();
 
             var settings = new JsonSerializerSettings
             {
@@ -203,7 +206,7 @@ namespace CanvasData.Biz
             var response = client.Execute(request);
 
 
-            rtnValue.AddRange(JsonConvert.DeserializeObject<List<Biz.Model.CourseEnrollments>>(response.Content, settings));
+            rtnValue.AddRange(JsonConvert.DeserializeObject<List<Biz.Model.EnrollmentRecord>>(response.Content, settings));
 
             string link = NextLink(response);
             while (link.Length != 0)
@@ -212,7 +215,7 @@ namespace CanvasData.Biz
                 addAuth(ref request);
 
                 response = client.Execute(request);
-                rtnValue.AddRange(JsonConvert.DeserializeObject<List<Biz.Model.CourseEnrollments>>(response.Content, settings));
+                rtnValue.AddRange(JsonConvert.DeserializeObject<List<Biz.Model.EnrollmentRecord>>(response.Content, settings));
                 link = NextLink(response);
 
             }

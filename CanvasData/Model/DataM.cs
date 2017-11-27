@@ -168,11 +168,13 @@ namespace CanvasData.Biz.Model
 
     public class Grades
     {
+        // Changed score types to string
+        //11-27-2017
 
         public string html_url { get; set; }
-        public double current_score { get; set; }
+        public string current_score { get; set; }
         public string current_grade { get; set; }
-        public double final_score { get; set; }
+        public string final_score { get; set; }
         public string final_grade { get; set; }
 
     }

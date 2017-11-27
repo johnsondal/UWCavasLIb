@@ -46,7 +46,7 @@ namespace WebTestHarness.Controllers
         public ContentResult GetCourseEnrollmentsWithGrades(string courseID, string searchTerm)
         {
 
-            List<CanvasData.Biz.Model.CourseEnrollments> Enrollments;
+            List<CanvasData.Biz.Model.EnrollmentRecord> Enrollments;
             string token = WebConfigurationManager.AppSettings["CanvasToken"].ToString();
             string webURL = WebConfigurationManager.AppSettings["CavasURL"].ToString();
 
