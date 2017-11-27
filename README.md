@@ -85,11 +85,13 @@ The following is an example is how to initialize the library and make a call
 
 ### ```GetCourseQuizzes (string CourseID)```
 
+* **Note: The orginal Quiz tool will be replaced in the upcoming year, with an LTI tool.  Use Assignment Methods. **
 * Function returns a List of POCO Canvas Quiz objects. https://canvas.instructure.com/doc/api/quizzes.html#method.quizzes/quizzes_api.index
 * *testWebHarness* Call: http://yourwebserver/data/GetCourseQuizzes?courseID=73706
 
 ### ```GetCourseQuizSubmissions(string courseID, string quizID)```
-
+* **Note: The orginal Quiz tool will be replaced in the upcoming year, with an LTI tool.  Use Assignment Methods. **
+* Function returns a List of POCO Canvas Quiz objects. 
 * Function returns a List of POCO Canvas Quiz Submission Objects.  https://canvas.instructure.com/doc/api/quiz_submissions.html
 * *testWebHarness* Call: http://yourwebserver/data/GetCourseQuizSubmissions?courseID=51177&quizID=32665
 
