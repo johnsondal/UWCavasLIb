@@ -354,7 +354,7 @@ namespace CanvasData.Biz.Model
         public DateTime? due_at { get; set; }
         public DateTime? unlock_at { get; set; }
         public DateTime? lock_at { get; set; }
-        public int points_possible { get; set; }
+        public decimal points_possible { get; set; }
         public string grading_type { get; set; }
         public int assignment_group_id { get; set; }
         public object grading_standard_id { get; set; }
