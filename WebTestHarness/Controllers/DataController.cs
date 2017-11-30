@@ -217,15 +217,17 @@ namespace WebTestHarness.Controllers
             var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
             serializer.MaxJsonLength = Int32.MaxValue;
 
-            var result = new ContentResult
-            {
-                Content = serializer.Serialize(courses),
-                ContentType = "application/json"
+       
+           
 
-            };
 
-            return result;
+            System.IO.MemoryStream mio = new System.IO.MemoryStream();
 
+            ServiceStack.Text.CsvSerializer.SerializeToStream(courses, mio);
+            mio.Position = 0;
+            FileStreamResult fs = new FileStreamResult(mio, "text/csv");
+            fs.FileDownloadName = "PublishedCourses.csv";
+            return fs;
 
         }
 

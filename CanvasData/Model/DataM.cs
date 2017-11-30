@@ -84,6 +84,8 @@ namespace CanvasData.Biz.Model
         public int cntObservers { get; set; }
         public int cntDesigners { get; set; }
 
+        public List<CourseTab> Tabs { get; set; }
+        public string SyllabusLink { get; set; }
     }
 
     public class Profile
@@ -739,7 +741,21 @@ namespace CanvasData.Biz.Model
             }
         }
     }
+    public class CourseTab
+    {
+        public string id { get; set; }
+        public string html_url { get; set; }
+        public string full_url { get; set; }
+        public int position { get; set; }
+        public string visibility { get; set; }
+        public string label { get; set; }
+        public string type { get; set; }
+        public bool? unused { get; set; }
+        public bool? hidden { get; set; }
+        public string url { get; set; }
 
-
-
+    }
 }
+
+
+

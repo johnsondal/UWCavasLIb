@@ -62,6 +62,7 @@ namespace CanvasData.Biz
 
         const string cAdminList = "api/v1/accounts/{0}/admins";
 
+        const string cCourseTabs = "/api/v1/courses/{0}/tabs?include[]=external";
 
 
 
@@ -455,21 +456,64 @@ namespace CanvasData.Biz
                     item.account_parent_name = getAccount(account.parent_account_id).name;
                 }
 
-                item.cntTeachers = getEnrollmentsbyType(item.id.ToString(), "Teacher").Count;
-                item.cntTAs = getEnrollmentsbyType(item.id.ToString(), "TA").Count;
-                item.cntStudents = getEnrollmentsbyType(item.id.ToString(), "Student").Count;
-                item.cntObservers = getEnrollmentsbyType(item.id.ToString(), "Observers").Count;
-                item.cntDesigners = getEnrollmentsbyType(item.id.ToString(), "Designers").Count;
+                //item.cntTeachers = getEnrollmentsbyType(item.id.ToString(), "Teacher").Count;
+                //   item.cntTAs = getEnrollmentsbyType(item.id.ToString(), "TA").Count;
+                // item.cntStudents = getEnrollmentsbyType(item.id.ToString(), "Student").Count;
+                //  item.cntObservers = getEnrollmentsbyType(item.id.ToString(), "Observers").Count;
+                //  item.cntDesigners = getEnrollmentsbyType(item.id.ToString(), "Designers").Count;
 
+                item.Tabs = GetCourseTabs(item.id.ToString()).FindAll(e => e.label == "Syllabus" && e.hidden != true);
+                if (item.Tabs.Count > 0)
+                {
+                    item.SyllabusLink = item.Tabs.First(e => e.label == "Syllabus").full_url;
 
+                }
 
-
+                item.Tabs = null;
 
             }
 
 
             return rtnValue;
         }
+
+        
+        public List<Biz.Model.CourseTab> GetCourseTabs(string id)
+        {
+            var settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore
+            };
+
+            RestClient client = new RestClient(WebcoursesUri);
+            RestRequest request = new RestRequest(string.Format(cCourseTabs, id), Method.GET);
+            addAuth(ref request);
+
+            var response = client.Execute(request);
+
+            List<Biz.Model.CourseTab> rtnValue = new List<Model.CourseTab>();
+            rtnValue.AddRange(JsonConvert.DeserializeObject<List<Biz.Model.CourseTab>>(response.Content, settings));
+
+
+            string link = NextLink(response);
+            while (link.Length != 0)
+            {
+                request = new RestRequest(link.Substring(1, link.Length - 2).Substring(WebcoursesUri.Length + 1), Method.GET);
+                addAuth(ref request);
+
+                response = client.Execute(request);
+                rtnValue.AddRange(JsonConvert.DeserializeObject<List<Biz.Model.CourseTab>>(response.Content, settings));
+                link = NextLink(response);
+
+            }
+
+            return rtnValue;
+
+
+
+        }
+
 
         public List<Biz.Model.EnrollmentReportActReport> getEnrollmentDetails(string accountID, string enrollment_term_id)
         {
