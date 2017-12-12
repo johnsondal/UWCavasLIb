@@ -136,3 +136,5 @@ C:\Users\Johns\OneDrive\Documents\GitHub\UWCavasLIb\WebTestHarness\bin\RestSharp
 C:\Users\Johns\OneDrive\Documents\GitHub\UWCavasLIb\WebTestHarness\obj\Debug\WebTestHarness.csprojResolveAssemblyReference.cache
 C:\Users\Johns\OneDrive\Documents\GitHub\UWCavasLIb\WebTestHarness\obj\Debug\WebTestHarness.dll
 C:\Users\Johns\OneDrive\Documents\GitHub\UWCavasLIb\WebTestHarness\obj\Debug\WebTestHarness.pdb
+C:\Users\Johns\Documents\GitHub\UWCavasLIb\WebTestHarness\bin\DotNetZip.dll
+C:\Users\Johns\Documents\GitHub\UWCavasLIb\WebTestHarness\bin\DotNetZip.xml

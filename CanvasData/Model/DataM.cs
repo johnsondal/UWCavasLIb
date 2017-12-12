@@ -86,6 +86,49 @@ namespace CanvasData.Biz.Model
 
         public List<CourseTab> Tabs { get; set; }
         public string SyllabusLink { get; set; }
+
+        public List<Section> sections { get; set; }
+
+
+    }
+
+    public class Section
+    {
+        // The unique identifier for the section.
+        public int id { get; set; }
+
+        // The name of the section.
+        public string name { get; set; }
+
+        // The sis id of the section. This field is only included if the user has
+        // permission to view SIS information.
+        public string sis_section_id { get; set; }
+
+        // Optional: The integration ID of the section. This field is only included if the
+        // user has permission to view SIS information.
+        public string integration_id { get; set; }
+        // The unique identifier for the SIS import if created through SIS. This field is
+        // only included if the user has permission to manage SIS information.
+        public int sis_import_id { get; set; }
+        // The unique Canvas identifier for the course in which the section belongs
+        public int course_id { get; set; }
+        // The unique SIS identifier for the course in which the section belongs. This
+        // field is only included if the user has permission to view SIS information.
+        public string sis_course_id { get; set; }
+        // the start date for the section, if applicable
+
+        public string start_at { get; set; }
+        // the end date for the section, if applicable
+
+        public string end_at { get; set; }
+        // Restrict user enrollments to the start and end dates of the section
+
+        public string restrict_enrollments_to_section_dates { get; set; }
+        // The unique identifier of the original course of a cross-listed section
+
+        public string nonxlist_course_id { get; set; }
+
+        public string total_students { get; set; }
     }
 
     public class Profile

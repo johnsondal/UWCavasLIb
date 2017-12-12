@@ -49,6 +49,10 @@ namespace CanvasData.Biz
 
         const string cPUBLISHED_COURSES_ALL = "api/v1/accounts/{0}/courses?include[]=teachers&per_page=100";
 
+        const string cCourse = "api/v1/courses/{0}?include[]=teachers&include=[]=sections";
+
+        const string cSections = "api/v1/courses/{0}/sections";
+
 
 
         const string cPROFILE = "api/v1/users/{0}/profile";
@@ -255,6 +259,75 @@ namespace CanvasData.Biz
 
                 response = client.Execute(request);
                 rtnValue.AddRange(JsonConvert.DeserializeObject<List<Biz.Model.Assignment>>(response.Content, settings));
+                link = NextLink(response);
+
+            }
+            return rtnValue;
+
+        }
+
+
+        public Model.Course GetCourse(string CourseID)
+        {
+            Model.Course rtnValue = new Model.Course();
+
+            var settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore
+            };
+
+            RestClient client = new RestClient(WebcoursesUri);
+
+            string searchURL = string.Format(cCourse, CourseID);
+
+
+
+            RestRequest request = new RestRequest(searchURL, Method.GET);
+            addAuth(ref request);
+
+            var response = client.Execute(request);
+
+
+            rtnValue = JsonConvert.DeserializeObject<Biz.Model.Course>(response.Content, settings);
+
+   
+            return rtnValue;
+
+        }
+
+        public List<Model.Section> GetCourseSections(string CourseID)
+        {
+            List<Biz.Model.Section> rtnValue = new List<Model.Section>();
+
+            var settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore
+            };
+
+            RestClient client = new RestClient(WebcoursesUri);
+
+            string searchURL = string.Format(cSections, CourseID);
+
+
+
+            RestRequest request = new RestRequest(searchURL, Method.GET);
+            addAuth(ref request);
+
+            var response = client.Execute(request);
+
+
+            rtnValue.AddRange(JsonConvert.DeserializeObject<List<Biz.Model.Section>>(response.Content, settings));
+
+            string link = NextLink(response);
+            while (link.Length != 0)
+            {
+                request = new RestRequest(link.Substring(1, link.Length - 2).Substring(WebcoursesUri.Length + 1), Method.GET);
+                addAuth(ref request);
+
+                response = client.Execute(request);
+                rtnValue.AddRange(JsonConvert.DeserializeObject<List<Biz.Model.Section>>(response.Content, settings));
                 link = NextLink(response);
 
             }
@@ -477,7 +550,28 @@ namespace CanvasData.Biz
             return rtnValue;
         }
 
-        
+
+        public List<Biz.Model.Course> getPublishedCourseswithSections(string accountID, string enrollment_term_id)
+        {
+
+            List<Biz.Model.Course> rtnValue = new List<Model.Course>();
+
+
+           rtnValue = getPublishedCourses(accountID, enrollment_term_id);
+
+            foreach (Biz.Model.Course item in rtnValue)
+            {
+                item.sections = GetCourseSections(item.id.ToString());
+                
+
+            }
+
+
+            return rtnValue;
+        }
+
+
+
         public List<Biz.Model.CourseTab> GetCourseTabs(string id)
         {
             var settings = new JsonSerializerSettings

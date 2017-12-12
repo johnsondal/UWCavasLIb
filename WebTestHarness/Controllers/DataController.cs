@@ -232,6 +232,53 @@ namespace WebTestHarness.Controllers
         }
 
 
+        public ActionResult PublishedCoursesWSections(int id, string enrollment_term_id)
+        {
+            List<CanvasData.Biz.Model.Course> courses;
+            string token = WebConfigurationManager.AppSettings["CanvasToken"].ToString();
+            string webURL = WebConfigurationManager.AppSettings["CavasURL"].ToString();
+
+            CanvasData.Biz.canvasClient client = new CanvasData.Biz.canvasClient(webURL, token);
+
+            courses = client.getPublishedCourseswithSections(id.ToString(), enrollment_term_id);
+
+            List<CanvasData.Biz.Model.Section> sections = new List<CanvasData.Biz.Model.Section>();
+
+            foreach (CanvasData.Biz.Model.Course item in courses)
+            {
+                if (item.sections.Count > 0)
+                    sections.AddRange(item.sections);
+
+            }
+
+
+            var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+            serializer.MaxJsonLength = Int32.MaxValue;
+
+            var mio = new System.IO.MemoryStream();
+
+            string coursesCSV = ServiceStack.Text.CsvSerializer.SerializeToCsv(courses);
+            string sectionsCSV = ServiceStack.Text.CsvSerializer.SerializeToCsv(sections);
+     
+
+            using (var zip = new Ionic.Zip.ZipFile())
+            {
+                zip.AddEntry("Courses.csv", coursesCSV);
+                zip.AddEntry("Sections.csv", sectionsCSV);
+                zip.Save(mio);
+
+            }
+
+            mio.Position = 0;
+
+
+            FileStreamResult fs = new FileStreamResult(mio, "text/csv");
+            fs.FileDownloadName = "PublishedCourses.zip";
+
+            return fs;
+
+        }
+
         public ActionResult EnrollmentDetails(int id, string enrollment_term_id)
         {
             List<CanvasData.Biz.Model.EnrollmentReportActReport> courses;
