@@ -49,6 +49,7 @@ namespace CanvasData.Biz
 
         const string cPUBLISHED_COURSES_ALL = "api/v1/accounts/{0}/courses?include[]=teachers&per_page=100";
 
+        const string cCOURSES_ALL = "api/v1/accounts/{0}/courses?per_page = 100";
         const string cCourse = "api/v1/courses/{0}?include[]=teachers&include=[]=sections";
 
         const string cSections = "api/v1/courses/{0}/sections";
@@ -974,6 +975,93 @@ namespace CanvasData.Biz
 
 
 
+        }
+
+
+        public Biz.Model.MetricReport getMetrics(string accountID, string enrollment_term_id)
+        {
+            Biz.Model.MetricReport rtnValue = new Model.MetricReport();
+            List<Biz.Model.Course> courses = new List<Model.Course>();
+
+            
+            List<string> teachers = new List<string>();
+            List<string> students = new List<string>();
+            
+
+            var settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore
+            };
+
+            string url = string.Format(cCOURSES_ALL, accountID);
+
+            if (enrollment_term_id != "-1")
+                url = url + "&published=true&enrollment_term_id=" + enrollment_term_id;
+
+
+            RestClient client = new RestClient(WebcoursesUri);
+            RestRequest request = new RestRequest( url, Method.GET);
+            addAuth(ref request);
+
+            var response = client.Execute(request);
+
+
+            courses.AddRange(JsonConvert.DeserializeObject<List<Biz.Model.Course>>(response.Content, settings));
+
+            string link = NextLink(response);
+            while (link.Length != 0)
+            {
+                request = new RestRequest(link.Substring(1, link.Length - 2).Substring(WebcoursesUri.Length + 1), Method.GET);
+                addAuth(ref request);
+
+                response = client.Execute(request);
+                courses.AddRange(JsonConvert.DeserializeObject<List<Biz.Model.Course>>(response.Content, settings));
+                link = NextLink(response);
+
+            }
+
+
+
+            foreach (Biz.Model.Course item in courses)
+            {
+             //   Biz.Model.Account account = getAccount(item.account_id);
+             //   item.account_name = account.name;
+
+
+             //       item.account_parent_id = account.parent_account_id.ToString();
+             //       item.account_parent_name = getAccount(account.parent_account_id).name;
+
+                List<Biz.Model.EnrollmentRecord> _teachers = getEnrollmentsbyType(item.id.ToString(), "Teacher");
+
+                List<Biz.Model .EnrollmentRecord> _students = getEnrollmentsbyType(item.id.ToString(), "Student");
+                //  item.cntObservers = getEnrollmentsbyType(item.id.ToString(), "Observers").Count;
+
+                foreach (Biz.Model.EnrollmentRecord _item in _teachers)
+                {
+                    if (teachers.Contains(_item.user.login_id) == false)
+                        teachers.Add(_item.user.login_id);
+
+
+                }
+
+                foreach (Biz.Model.EnrollmentRecord _item in _students)
+                {
+                    if (students.Contains(_item.user.login_id) == false)
+                        students.Add(_item.user.login_id);
+
+                }
+
+            }
+
+            rtnValue.term = enrollment_term_id;
+            rtnValue.courses_created = courses.Count();
+            rtnValue.published_courses = courses.Count(e => e.workflow_state == "available");
+            rtnValue.Unique_teachers = teachers.Count();
+            rtnValue.Unique_students = students.Count();
+
+
+         return rtnValue;
         }
     }
 

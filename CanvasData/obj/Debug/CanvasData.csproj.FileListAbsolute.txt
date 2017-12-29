@@ -15,3 +15,12 @@ C:\Users\Johns\OneDrive\Documents\GitHub\UWCavasLIb\CanvasData\bin\Debug\Newtons
 C:\Users\Johns\OneDrive\Documents\GitHub\UWCavasLIb\CanvasData\bin\Debug\RestSharp.xml
 C:\Users\Johns\OneDrive\Documents\GitHub\UWCavasLIb\CanvasData\obj\Debug\CanvasData.dll
 C:\Users\Johns\OneDrive\Documents\GitHub\UWCavasLIb\CanvasData\obj\Debug\CanvasData.pdb
+G:\UserData\Documents\GitHub\UWCavasLIb\CanvasData\bin\Debug\CanvasData.dll
+G:\UserData\Documents\GitHub\UWCavasLIb\CanvasData\bin\Debug\CanvasData.pdb
+G:\UserData\Documents\GitHub\UWCavasLIb\CanvasData\bin\Debug\Newtonsoft.Json.dll
+G:\UserData\Documents\GitHub\UWCavasLIb\CanvasData\bin\Debug\RestSharp.dll
+G:\UserData\Documents\GitHub\UWCavasLIb\CanvasData\bin\Debug\Newtonsoft.Json.xml
+G:\UserData\Documents\GitHub\UWCavasLIb\CanvasData\bin\Debug\RestSharp.xml
+G:\UserData\Documents\GitHub\UWCavasLIb\CanvasData\obj\Debug\CanvasData.csprojResolveAssemblyReference.cache
+G:\UserData\Documents\GitHub\UWCavasLIb\CanvasData\obj\Debug\CanvasData.dll
+G:\UserData\Documents\GitHub\UWCavasLIb\CanvasData\obj\Debug\CanvasData.pdb

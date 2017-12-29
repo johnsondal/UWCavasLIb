@@ -6,6 +6,15 @@ using System.Threading.Tasks;
 
 namespace CanvasData.Biz.Model
 {
+    public class MetricReport
+    {
+        public string term { get; set; }
+        public int courses_created { get; set; }
+        public int published_courses { get; set; }
+        public int Unique_teachers { get; set; }
+        public int Unique_students { get; set; }
+        
+    }
     public class Teacher
     {
         public int id { get; set; }

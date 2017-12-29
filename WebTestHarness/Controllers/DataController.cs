@@ -371,5 +371,32 @@ namespace WebTestHarness.Controllers
 
         }
 
+
+        public ActionResult MetricsReport(int id, string enrollment_term_id)
+        {
+            CanvasData.Biz.Model.MetricReport rtnValue = new CanvasData.Biz.Model.MetricReport ();
+            string token = WebConfigurationManager.AppSettings["CanvasToken"].ToString();
+            string webURL = WebConfigurationManager.AppSettings["CavasURL"].ToString();
+
+            CanvasData.Biz.canvasClient client = new CanvasData.Biz.canvasClient(webURL, token);
+
+            rtnValue  = client.getMetrics(id.ToString(), enrollment_term_id);
+
+            var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+            serializer.MaxJsonLength = Int32.MaxValue;
+
+
+
+
+
+            System.IO.MemoryStream mio = new System.IO.MemoryStream();
+
+            ServiceStack.Text.CsvSerializer.SerializeToStream(rtnValue , mio);
+            mio.Position = 0;
+            FileStreamResult fs = new FileStreamResult(mio, "text/csv");
+            fs.FileDownloadName = "Metrics.csv";
+            return fs;
+
+        }
     }
 }
