@@ -70,6 +70,55 @@ namespace WebTestHarness.Controllers
 
         }
 
+        public ContentResult CreateUser(string login_id, string name, string sortable_name)
+        {
+            string token = WebConfigurationManager.AppSettings["CanvasToken"].ToString();
+            string webURL = WebConfigurationManager.AppSettings["CavasURL"].ToString();
+
+            CanvasData.Biz.canvasClient client = new CanvasData.Biz.canvasClient(webURL, token);
+
+            CanvasData.Biz.Model.User rtnValue  = client.CreateUser (login_id,name, sortable_name);
+
+
+            var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+            serializer.MaxJsonLength = Int32.MaxValue;
+
+            var result = new ContentResult
+            {
+                Content = serializer.Serialize(rtnValue ),
+                ContentType = "application/json"
+
+            };
+
+            return result;
+
+
+        }
+
+        public ContentResult CreateSection(string CourseID, String SectionName)
+        {
+            string token = WebConfigurationManager.AppSettings["CanvasToken"].ToString();
+            string webURL = WebConfigurationManager.AppSettings["CavasURL"].ToString();
+
+            CanvasData.Biz.canvasClient client = new CanvasData.Biz.canvasClient(webURL, token);
+
+            CanvasData.Biz.Model.Section rtnValue = client.CreateCourseSection (CourseID, SectionName);
+
+
+            var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+            serializer.MaxJsonLength = Int32.MaxValue;
+
+            var result = new ContentResult
+            {
+                Content = serializer.Serialize(rtnValue),
+                ContentType = "application/json"
+
+            };
+
+            return result;
+
+
+        }
 
         public ContentResult GetCourseQuizzes(string courseID)
         {
@@ -189,6 +238,30 @@ namespace WebTestHarness.Controllers
             CanvasData.Biz.canvasClient client = new CanvasData.Biz.canvasClient(webURL, token);
 
             enrollment = client.EnrollUser(courseID, userID, sectionID);
+
+            var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+            serializer.MaxJsonLength = Int32.MaxValue;
+
+            var result = new ContentResult
+            {
+                Content = serializer.Serialize(enrollment),
+                ContentType = "application/json"
+            };
+
+            return result;
+
+
+        }
+
+        public ContentResult UnEnrollUser(string courseID, string enrollmentID)
+        {
+            CanvasData.Biz.Model.EnrollmentRecord enrollment;
+            string token = WebConfigurationManager.AppSettings["CanvasToken"].ToString();
+            string webURL = WebConfigurationManager.AppSettings["CavasURL"].ToString();
+
+            CanvasData.Biz.canvasClient client = new CanvasData.Biz.canvasClient(webURL, token);
+
+            enrollment = client.UnEnrollUser(courseID, enrollmentID);
 
             var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
             serializer.MaxJsonLength = Int32.MaxValue;

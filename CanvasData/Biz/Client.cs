@@ -41,6 +41,7 @@ namespace CanvasData.Biz
         // Pull Course AssignmentSubmissions
         const string cCourseAssignmentSubmissions = "";
 
+        const string cCreateUser = "/api/v1/accounts/1/users";
 
         const string cEnrollUser = "/api/v1/courses/{0}/enrollments";
 
@@ -183,6 +184,64 @@ namespace CanvasData.Biz
 
 
             rtnValue = JsonConvert.DeserializeObject<Biz.Model.EnrollmentRecord>(response.Content, settings);
+
+
+            return rtnValue;
+        }
+
+
+        public Model.EnrollmentRecord UnEnrollUser(string courseID, string EnrollmentID)
+        {
+
+            Biz.Model.EnrollmentRecord rtnValue = new Model.EnrollmentRecord();
+
+            var settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore
+            };
+
+            RestClient client = new RestClient(WebcoursesUri);
+            RestRequest request = new RestRequest(string.Format(cEnrollUser, courseID) + "/" + EnrollmentID, Method.DELETE );
+            addAuth(ref request);
+            request.AddParameter("task", "deactivate");
+
+
+            var response = client.Execute(request);
+
+
+            rtnValue = JsonConvert.DeserializeObject<Biz.Model.EnrollmentRecord>(response.Content, settings);
+
+
+            return rtnValue;
+        }
+
+
+        public Model.User CreateUser(string login_id, string name, string sortable_name)
+        {
+            //login_id: The name that a user will use to login to Instructure. If you have an authentication service configured (like LDAP), this will be their username from the remote system. (NameID or EPPN)
+            // name: first & last name concon
+
+            Model.User rtnValue = new Model.User();
+
+            var settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore
+            };
+
+            RestClient client = new RestClient(WebcoursesUri);
+            RestRequest request = new RestRequest(cCreateUser , Method.POST);
+            addAuth(ref request);
+            request.AddParameter("pseudonym[unique_id]", login_id);
+            request.AddParameter("user[name]",name);
+            request.AddParameter("user[sortable_name]",sortable_name);
+            request.AddParameter("user[terms_of_use]", true);
+
+            var response = client.Execute(request);
+
+
+            rtnValue = JsonConvert.DeserializeObject<Model.User>(response.Content, settings);
 
 
             return rtnValue;
@@ -335,6 +394,37 @@ namespace CanvasData.Biz
             return rtnValue;
 
         }
+
+
+        public Model.Section CreateCourseSection(string CourseID, string SectionName)
+        {
+            Biz.Model.Section rtnValue = new Model.Section(); ;
+
+            var settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore
+            };
+
+            RestClient client = new RestClient(WebcoursesUri);
+
+            string searchURL = string.Format(cSections, CourseID);
+
+
+
+            RestRequest request = new RestRequest(searchURL, Method.POST);
+            addAuth(ref request);
+            request.AddParameter("course_section[name]", SectionName);
+
+            var response = client.Execute(request);
+
+
+            rtnValue = JsonConvert.DeserializeObject<Biz.Model.Section>(response.Content, settings);
+
+            return rtnValue;
+
+        }
+
 
         public List<Model.Submission> GetCourseSubmissions(string courseID, string AssignmentID)
         {
