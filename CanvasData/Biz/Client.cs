@@ -39,7 +39,7 @@ namespace CanvasData.Biz
         const string cCourseAssignments = "api/v1/courses/{0}/assignments";
 
         // Pull Course AssignmentSubmissions
-        const string cCourseAssignmentSubmissions = "";
+        const string cCourseAssignmentSubmissions = "api/v1/courses/{0}/assignments/{1}/submissions";
 
         const string cCreateUser = "/api/v1/accounts/1/users";
 

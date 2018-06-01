@@ -675,7 +675,7 @@ namespace CanvasData.Biz.Model
         public object body { get; set; }
         public object url { get; set; }
         public string grade { get; set; }
-        public int? score { get; set; }
+        public string score { get; set; }
         public object submitted_at { get; set; }
         public int assignment_id { get; set; }
         public int user_id { get; set; }
@@ -694,7 +694,7 @@ namespace CanvasData.Biz.Model
         public bool missing { get; set; }
         public int seconds_late { get; set; }
         public string entered_grade { get; set; }
-        public int? entered_score { get; set; }
+        public string entered_score { get; set; }
         public string preview_url { get; set; }
 
         // These Values are not included in the base class.  Expanded to make more user friendly.
