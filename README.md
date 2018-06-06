@@ -1,4 +1,4 @@
-# UW-Madison C# Canvas Bridge Library
+# UW C# Canvas Bridge Library
 
 ## Introduction
 This library utilizes the C#/ .NET 4.5.2 stack and is intended to bridge the gap between Campus systems and the Canvas LMS.  
